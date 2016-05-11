@@ -8,10 +8,11 @@
         <?php
         $link =mysqli_connect("sql8.freemysqlhosting.net","sql8117996","xMd12ZdBgn","sql8117996");
         if(!$link) die("pb");
-        $resultat=mysqli_query($link,"SELECT nom From Film Join Artiste On (idMes=idArtiste)");
+        $resultat=mysqli_query($link,"SELECT Distinct nom From Film Join Artiste On (idMes=idArtiste)");
         if($resultat){
           foreach($resultat as $film){
-            echo"<option>"
+            echo"<option>".$film['nom']."</option>";
+          }
         }
         ?>
       </select>
