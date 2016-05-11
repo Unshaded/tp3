@@ -14,7 +14,13 @@
             echo"<option>".$film['nom']."</option>";
           }
         }
+        else 
+          die('Erreur de requete');
+        mysqli_close($link);
         ?>
+        </form>
+        <input type='submit' value='Envoyer'>
+        
       </select>
     </form>
     <legend>
@@ -30,22 +36,27 @@
         </tr>
       </thead>
     <?php
-    $link = mysqli_connect("sql8.freemysqlhosting.net","sql8117996","xMd12ZdBgn","sql8117996");
-    if(!$link) die ("pb");
-    $resultat=mysqli_query($link,"SELECT titre,annee,genre, nom FROM Film Join Artiste On (idMes =idArtiste)");
-    
-    if($resultat){
+      if(isset($_GET["nom"])){
+        $nom = $_GET['nom'];
       
-      foreach($resultat as $film){
-        
-        echo"<tr>";
-        echo"<td>".$film['titre']."</td>";
-        echo"<td>".$film['annee']."</td>";
-        echo"<td>".$film['genre']."</td>";
-        echo"<td>".$film['nom']."</td>";
-        echo"</tr>";
+        $link = mysqli_connect("sql8.freemysqlhosting.net","sql8117996","xMd12ZdBgn","sql8117996");
+        if(!$link) die ("pb");
+        $resultat=mysqli_query($link,"SELECT titre,annee,genre, nom FROM Film Join Artiste On (idMes =idArtiste)");
+    
+         if($resultat){
+      
+          foreach($resultat as $film){
+            if($nom == $film['nom']){
+              echo"<tr>";
+              echo"<td>".$film['titre']."</td>";
+              echo"<td>".$film['annee']."</td>";
+              echo"<td>".$film['genre']."</td>";
+              echo"<td>".$film['nom']."</td>";
+              echo"</tr>";
+            }
+          }
+        }
       }
-    }
     else
       die('Erreur de connexion (' . mysqli_connect_errno() . ') '. mysqli_connect_error());
     ?>
